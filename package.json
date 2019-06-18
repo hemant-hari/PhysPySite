@@ -1,0 +1,19 @@
+{
+  "name": "physpysite",
+  "version": "1.0.0",
+  "description": "physics simulation website with embedded python in client-side",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemant-hari/PhysPySite.git"
+  },
+  "author": "Hemant Hari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hemant-hari/PhysPySite/issues"
+  },
+  "homepage": "https://github.com/hemant-hari/PhysPySite#readme"
+}
