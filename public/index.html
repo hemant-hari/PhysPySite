@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Physics Simulation Website powered by Pyodide">
+    <meta name="author" content="Hemant Hari">
+    <meta name="theme-color" content="#000000" />
+    <script src="https://pyodide.cdn.iodide.io/pyodide.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title></title>
+  </head>
+  <body>
+    <script>
+      languagePluginLoader.then(() => {
+        // pyodide is now ready to use...
+        console.log(pyodide.runPython('import sys\nsys.version'));
+        pyodide.loadPackage(['matplotlib', 'numpy']).then(() => {
+          pyodide.runPython('import matplotlib.plotly as plt; import numpy as np; x = np.arange(1,10,1); b = np.arange(1,10,1); plt.plot(a,b);');
+        });
+      });
+    </script>
+    Doin a test
+  </body>
+</html>
