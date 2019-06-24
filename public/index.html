@@ -16,7 +16,7 @@
         // pyodide is now ready to use...
         console.log(pyodide.runPython('import sys\nsys.version'));
         pyodide.loadPackage(['matplotlib', 'numpy']).then(() => {
-          pyodide.runPython('import matplotlib.plotly as plt; import numpy as np; x = np.arange(1,10,1); b = np.arange(1,10,1); plt.plot(a,b);');
+          pyodide.runPython('from matplotlib import pyplot as plt; import numpy as np; x = np.arange(1,10,1); b = np.arange(1,10,1); plt.plot(x,b);');
         });
       });
     </script>
