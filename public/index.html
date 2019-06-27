@@ -18,7 +18,8 @@
           // pyodide is now ready to use...
           console.log(pyodide.runPython('import sys\nsys.version'));
           pyodide.loadPackage(['matplotlib']).then(() => {
-            console.log(pyodide.runPython("from js import document;from js import window;from js import ImageData;from matplotlib import pyplot as plt; import numpy as np; x = np.linspace(1,10,50); y = np.linspace(1,10,50); plt.figure(); plt.plot(x,y); plt.show(); document;"));
+            console.log(pyodide.runPython("from matplotlib import pyplot as plt; import numpy as np; x = np.linspace(1,10,10); y = np.linspace(1,10,10); plt.figure(); plt.plot(x,y); plt.show();"));
+            console.log(pyodide.globals.x, pyodide.globals.y, pyodide.globals.plt.show());
           });
         });
         window.onload = function () {
@@ -27,8 +28,6 @@
             lineNumbers: true,
             indentWithTabs: true
           });
-          var div = document.createElement ("canvas");
-          document.body.appendChild (div);
         }
         console.log("done");
       </script>
