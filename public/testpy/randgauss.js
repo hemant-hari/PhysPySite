@@ -1,0 +1,38 @@
+var testpy = `import numpy as np
+import math
+from matplotlib import pyplot as plt 
+
+np.random.seed()
+
+def randGauss(mu, sigma):
+    z= 100
+    while z >= 1:
+        x = np.random.uniform(-1,1)
+        y = np.random.uniform(-1,1)
+
+        z = x**2 + y**2
+    w = sigma*x*math.sqrt(-2*math.log(z)/z) + mu
+    return w
+
+multibin = [0.0]*100
+
+X = [0.0]*100
+for N in range(100):
+    X[N] = N/100
+
+i = -1
+x = 0
+while i < 1000000:
+    i += 1
+    x = randGauss(0.5, 0.3)
+    nbin = int(100*x)
+    n = nbin
+    if nbin >= 0:
+        try:
+            multibin[nbin] += 1
+        except IndexError:
+            z = 1000
+    else:
+        z = 1000
+
+Y = multibin`

@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/hemant-hari/PhysPySite/issues"
   },
-  "homepage": "https://github.com/hemant-hari/PhysPySite#readme"
+  "homepage": "https://github.com/hemant-hari/PhysPySite#readme",
+  "dependencies": {
+    "bootstrap": "^4.3.1"
+  }
 }
