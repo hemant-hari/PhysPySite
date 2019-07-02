@@ -6,7 +6,7 @@ app.use(express.static('public'));
 
 app.get('/', helloWorld);
 function helloWorld(req, res){
-  res.send('Hello World!');
+  res.sendFile('public/index.html');
 }
 
 app.listen(40, () => console.log('listening on port 8000'));
