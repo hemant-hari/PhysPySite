@@ -3,7 +3,7 @@ self.myCodeMirror = {}
 window.onload = function(){
     var old = console.log;
     var logger = document.getElementById('log');
-    console.log = function () {
+    /*console.log = function () {
       for (var i = 0; i < arguments.length; i++) {
         if (typeof arguments[i] == 'object') {
             logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
@@ -11,7 +11,7 @@ window.onload = function(){
             logger.innerHTML += arguments[i] + '<br />';
         }
       }
-    }
+    }*/
 }
 
 var app = new Vue({
@@ -22,12 +22,24 @@ var app = new Vue({
     pyodideLoaded: false,
     consoleOutput: ''
   },
+  methods: {
+    runCode: function(){
+      if (!this.pyodideLoaded) return;
+      pyodide.runPythonAsync(this.code).then(function(val){
+        console.log(val);
+        Plotly.plot(document.getElementById('plotly'), [{
+          x: pyodide.globals.X,
+          y: pyodide.globals.Y}], {
+          margin: { t: 0 } } );
+      });
+    }
+  },
   mounted: function(){
     languagePluginLoader.then(function (){
       app.pyodideLoaded = true;
       console.log('wahey');
     });
-    self.myCodeMirror = CodeMirror(document.body, {
+    self.myCodeMirror = CodeMirror(document.getElementById("codeEditor"), {
       value: '#Put Python code here! :)',
       lineNumbers: true,
       indentWithTabs: true

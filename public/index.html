@@ -6,7 +6,7 @@
     <script src="jslib/codemirror/mode/python/python.js"></script>
     <link rel="stylesheet" href="themes/w3.css">
     <link href="themes/prism.css" rel="stylesheet" />
-    <script src="prism.js"></script>
+    <script src="jslib/prism.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Physics Simulation Website powered by Pyodide">
@@ -21,10 +21,13 @@
   <body>
     <div id='app'>
       {{ pyodideLoaded }}
-      {{ code }}
     </div>
     <div><pre><code class="language-python" id='log'></code></pre></div>
     <div id="plotly" style="width:600px;height:250px;"></div>
+    <div class="w3-container w3-blue">
+      <div id="codeEditor" class="w3-panel"></div>
+      <button id="app" class="w3-button w3-red w3-margin-bottom" v-on:click="runCode">Run it!</button>
+    </div>
     <script src="jslib/app.js"></script>
   </body>
 </html>
