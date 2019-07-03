@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="jslib/codemirror/lib/codemirror.css">
     <script src="jslib/codemirror/mode/python/python.js"></script>
     <link rel="stylesheet" href="themes/w3.css">
-    <!-- <link href="themes/prism.css" rel="stylesheet" />
-    <script src="prism.js"></script> -->
+    <link href="themes/prism.css" rel="stylesheet" />
+    <script src="prism.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Physics Simulation Website powered by Pyodide">
@@ -16,34 +16,15 @@
     <script type="text/javascript" src="testpy/randgauss.js"></script>
     <script src="https://pyodide.cdn.iodide.io/pyodide.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-      <script>
-        languagePluginLoader.then(() => {
-          // pyodide is now ready to use...
-          console.log(pyodide.runPython('import sys\nsys.version'));
-          console.log(testpy);
-          pyodide.loadPackage(['matplotlib']).then(() => {
-            //console.log(pyodide.runPython("from matplotlib import pyplot as plt; import numpy as np; x = np.linspace(1,10,10); y = np.square(np.linspace(1,10,10)); plt.figure(); plt.plot(x,y); plt.show();"));
-            console.log(pyodide.runPython(testpy));
-            console.log(pyodide.globals.X, pyodide.globals.Y, pyodide.globals.plt.show());
-            Plotly.plot(document.getElementById('plotly'), [{
-              x: pyodide.globals.X,
-              y: pyodide.globals.Y}], {
-	            margin: { t: 0 } } );
-          });
-        });
-        window.onload = function () {
-          var myCodeMirror = CodeMirror(document.body, {
-            value: "# Python code goes here :)",
-            lineNumbers: true,
-            indentWithTabs: true
-          });
-        }
-      </script>
     <title></title>
   </head>
   <body>
-    Doin a test
-    <!-- <pre><code class="language-python"></code></pre> -->
+    <div id='app'>
+      {{ pyodideLoaded }}
+      {{ code }}
+    </div>
+    <div><pre><code class="language-python" id='log'></code></pre></div>
     <div id="plotly" style="width:600px;height:250px;"></div>
+    <script src="jslib/app.js"></script>
   </body>
 </html>
