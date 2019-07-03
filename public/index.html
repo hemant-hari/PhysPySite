@@ -21,12 +21,12 @@
   <body>
     <div id='app'>
       {{ pyodideLoaded }}
-    </div>
-    <div><pre><code class="language-python" id='log'></code></pre></div>
-    <div id="plotly" style="width:600px;height:250px;"></div>
-    <div class="w3-container w3-blue">
-      <div id="codeEditor" class="w3-panel"></div>
-      <button id="app" class="w3-button w3-red w3-margin-bottom" v-on:click="runCode">Run it!</button>
+      <div><pre><code class="language-python" id='log'></code></pre></div>
+      <div id="plotly" style="width:600px;height:250px;"></div>
+      <div class="w3-container w3-blue">
+        <div id="codeEditor" class="w3-panel"></div>
+        <button class="w3-button w3-red w3-margin-bottom" v-on:click="runCode">Run it!</button>
+      </div>
     </div>
     <script src="jslib/app.js"></script>
   </body>
