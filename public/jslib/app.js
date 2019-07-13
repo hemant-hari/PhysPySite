@@ -27,10 +27,76 @@ var app = new Vue({
       if (!this.pyodideLoaded) return;
       pyodide.runPythonAsync(this.code).then(function(val){
         console.log(val);
-        Plotly.plot(document.getElementById('plotly'), [{
+        console.log(pyodide.globals.X, pyodide.globals.Y);
+        /*Plotly.plot(document.getElementById('plotly'), [{
           x: pyodide.globals.X,
-          y: pyodide.globals.Y}], {
-          margin: { t: 0 } } );
+          y: pyodide.globals.Y}],  { responsive: true } );*/
+          Plotly.newPlot('plotly', {
+            data: [{
+              x: pyodide.globals.X,
+              y: pyodide.globals.Y,
+              mode: 'lines+markers',
+              transforms: [{
+                type: 'filter',
+                operation: '<=',
+                target: pyodide.globals.X,
+                value: 0.0
+              }]
+            }],
+            layout: {
+              updatemenus: [{
+                type: 'buttons',
+                xanchor: 'left',
+                yanchor: 'top',
+                direction: 'right',
+                x: 0,
+                y: 0,
+                pad: {t: 60},
+                showactive: false,
+                buttons: [{
+                  label: 'Play',
+                  method: 'animate',
+                  args: [null, {
+                    transition: {duration: 0},
+                    frame: {duration: 20, redraw: false},
+                    mode: 'immediate',
+                    fromcurrent: true,
+                  }]
+                }, {
+                  label: 'Pause',
+                  method: 'animate',
+                  args: [[null], {
+                    frame: {duration: 0, redraw: false},
+                    mode: 'immediate',
+                  }]
+                }]
+              }],
+              sliders: [{
+                currentvalue: {
+                  prefix: 'X = ',
+                  xanchor: 'right'
+                },
+                pad: {l: 130, t: 30},
+                transition: {
+                  duration: 0,
+                },
+                steps: Array.from(pyodide.globals.X).map((t,i) => ({
+                  label: t,
+                  method: 'animate',
+                  args: [[i], {
+                    frame: {duration: 0, redraw: false},
+                    mode: 'immediate',
+                  }]
+                }))
+              }]
+            },
+            frames: Array.from(pyodide.globals.X).map((t, i) => ({
+              name: i,
+              data: [{y: pyodide.globals.Y.slice(0, i)}]
+            })),
+            config: { responsive: true }
+          })
+
       });
     }
   },

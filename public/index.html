@@ -19,13 +19,16 @@
     <title></title>
   </head>
   <body>
-    <div id='app'>
-      {{ pyodideLoaded }}
-      <div><pre><code class="language-python" id='log'></code></pre></div>
-      <div id="plotly" style="width:600px;height:250px;"></div>
-      <div class="w3-container w3-blue">
+    <div id='app' class="w3-container w3-row">
+      <div class="w3-container w3-black"> {{ pyodideLoaded }} </div>
+      <!-- <div><pre><code class="language-python" id='log'></code></pre></div> -->
+      <div class="w3-half w3-container w3-deep-orange" style="height:386px;"><div id="plotly" style="height:350px;"></div></div>
+      <div class="w3-half w3-container w3-blue">
         <div id="codeEditor" class="w3-panel"></div>
         <button class="w3-button w3-red w3-margin-bottom" v-on:click="runCode">Run it!</button>
+      </div>
+      <div class="w3-container w3-light-gray">
+        Pick options for the plot below!
       </div>
     </div>
     <script src="jslib/app.js"></script>
