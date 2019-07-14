@@ -1,17 +1,20 @@
 self.myCodeMirror = {}
 
 window.onload = function(){
-    var old = console.log;
+    var console = {}
     var logger = document.getElementById('log');
-    /*console.log = function () {
+    console.log = function () {
       for (var i = 0; i < arguments.length; i++) {
         if (typeof arguments[i] == 'object') {
             logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
+            logger.scrollTop = logger.scrollHeight;
         } else {
             logger.innerHTML += arguments[i] + '<br />';
+
         }
       }
-    }*/
+    }
+    window.console = console;
 }
 
 var app = new Vue({
@@ -26,8 +29,6 @@ var app = new Vue({
     runCode: function(){
       if (!this.pyodideLoaded) return;
       pyodide.runPythonAsync(this.code).then(function(val){
-        console.log(val);
-        console.log(pyodide.globals.X, pyodide.globals.Y);
         /*Plotly.plot(document.getElementById('plotly'), [{
           x: pyodide.globals.X,
           y: pyodide.globals.Y}],  { responsive: true } );*/
