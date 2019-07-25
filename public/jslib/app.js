@@ -23,20 +23,18 @@ var app = new Vue({
     code: '# Python code goes here :)',
     codeWindow: self.myCodeMirror,
     pyodideLoaded: false,
-    consoleOutput: ''
+    consoleOutput: '',
+    plotType: "lines+markers"
   },
   methods: {
     runCode: function(){
       if (!this.pyodideLoaded) return;
       pyodide.runPythonAsync(this.code).then(function(val){
-        /*Plotly.plot(document.getElementById('plotly'), [{
-          x: pyodide.globals.X,
-          y: pyodide.globals.Y}],  { responsive: true } );*/
           Plotly.newPlot('plotly', {
             data: [{
               x: pyodide.globals.X,
               y: pyodide.globals.Y,
-              mode: 'lines+markers',
+              mode: app.plotType,
               transforms: [{
                 type: 'filter',
                 operation: '<=',
@@ -104,7 +102,6 @@ var app = new Vue({
   mounted: function(){
     languagePluginLoader.then(function (){
       app.pyodideLoaded = true;
-      console.log('wahey');
     });
     self.myCodeMirror = CodeMirror(document.getElementById("codeEditor"), {
       value: '#Put Python code here! :)',

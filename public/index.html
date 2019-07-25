@@ -45,7 +45,21 @@
         <!-- <pre><code class="language-python"></code></pre> -->
       </div>
       <div class="w3-half w3-container w3-light-gray">
-        Pick options for the plot below!
+        <h1>Pick options for the plot below!</h1>
+        <div id="plot-form">
+          <form class="w3-container">
+            <h3>Type of Plot</h3>
+            <p>
+            <input type="radio" name="plot-type" value="lines+markers" v-model="plotType" checked/>
+            <label>Lines and Markers</label></p>
+            <p>
+            <input type="radio" name="plot-type" value="lines" v-model="plotType" checked/>
+            <label>Line</label></p>
+            <p>
+            <input type="radio" name="plot-type" value="markers" v-model="plotType" checked/>
+            <label>Scatter</label></p>
+          </form>
+        </div>
       </div>
     </div>
     <script src="jslib/app.js"></script>
