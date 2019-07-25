@@ -45,19 +45,29 @@
         <!-- <pre><code class="language-python"></code></pre> -->
       </div>
       <div class="w3-half w3-container w3-light-gray">
-        <h1>Pick options for the plot below!</h1>
+        <h2>Pick options for the plot below!</h2>
         <div id="plot-form">
           <form class="w3-container">
-            <h3>Type of Plot</h3>
-            <p>
-            <input type="radio" name="plot-type" value="lines+markers" v-model="plotType" checked/>
-            <label>Lines and Markers</label></p>
-            <p>
-            <input type="radio" name="plot-type" value="lines" v-model="plotType" checked/>
-            <label>Line</label></p>
-            <p>
-            <input type="radio" name="plot-type" value="markers" v-model="plotType" checked/>
-            <label>Scatter</label></p>
+            <div class="w3-panel">
+              <h3>Type of Plot</h3>
+              <p>
+              <input type="radio" name="plot-type" value="lines+markers" v-model="plotType" checked/>
+              <label>Lines and Markers</label></p>
+              <p>
+              <input type="radio" name="plot-type" value="lines" v-model="plotType"/>
+              <label>Line</label></p>
+              <p>
+              <input type="radio" name="plot-type" value="markers" v-model="plotType"/>
+              <label>Scatter</label></p>
+            </div>
+            <div class="w3-panel">
+              <h3>Variables to plot</h3>
+              <label>X-Axis Array Name</label>
+              <input class="w3-input" type="text" value="X" v-model="xArray">
+
+              <label>Y-Axis Array Name</label>
+              <input class="w3-input" type="text" value="Y" v-model="yArray">
+            </div>
           </form>
         </div>
       </div>

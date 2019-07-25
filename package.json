@@ -1,0 +1,31 @@
+{
+  "name": "PhysPySite",
+  "version": "1.0.0",
+  "description": "Physics Simulation Website with embedded python in the front end",
+  "main": "index.js",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "mongodb": "^3.3.0-beta2",
+    "http-errors": "^1.7.3",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7",
+    "sqlite": "^3.0.3",
+    "bootstrap": "^4.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemant-hari/PhysPySite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hemant-hari/PhysPySite/issues"
+  },
+  "homepage": "https://github.com/hemant-hari/PhysPySite#readme"
+}

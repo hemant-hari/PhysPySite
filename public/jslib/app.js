@@ -24,7 +24,9 @@ var app = new Vue({
     codeWindow: self.myCodeMirror,
     pyodideLoaded: false,
     consoleOutput: '',
-    plotType: "lines+markers"
+    plotType: "lines+markers",
+    xArray: "X",
+    yArray: "Y"
   },
   methods: {
     runCode: function(){
@@ -32,13 +34,13 @@ var app = new Vue({
       pyodide.runPythonAsync(this.code).then(function(val){
           Plotly.newPlot('plotly', {
             data: [{
-              x: pyodide.globals.X,
-              y: pyodide.globals.Y,
+              x: pyodide.globals[app.xArray],
+              y: pyodide.globals[app.yArray],
               mode: app.plotType,
               transforms: [{
                 type: 'filter',
                 operation: '<=',
-                target: pyodide.globals.X,
+                target: pyodide.globals[app.xArray],
                 value: 0.0
               }]
             }],
@@ -79,7 +81,7 @@ var app = new Vue({
                 transition: {
                   duration: 0,
                 },
-                steps: Array.from(pyodide.globals.X).map((t,i) => ({
+                steps: Array.from(pyodide.globals[app.xArray]).map((t,i) => ({
                   label: t,
                   method: 'animate',
                   args: [[i], {
@@ -89,9 +91,9 @@ var app = new Vue({
                 }))
               }]
             },
-            frames: Array.from(pyodide.globals.X).map((t, i) => ({
+            frames: Array.from(pyodide.globals[app.xArray]).map((t, i) => ({
               name: i,
-              data: [{y: pyodide.globals.Y.slice(0, i)}]
+              data: [{y: pyodide.globals[app.yArray].slice(0, i+1)}]
             })),
             config: { responsive: true }
           })
@@ -102,6 +104,7 @@ var app = new Vue({
   mounted: function(){
     languagePluginLoader.then(function (){
       app.pyodideLoaded = true;
+      pyodide.loadPackage['numpy'];
     });
     self.myCodeMirror = CodeMirror(document.getElementById("codeEditor"), {
       value: '#Put Python code here! :)',
