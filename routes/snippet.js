@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var database = require('../database');
 
 router.post('/', function(req,res,next){
   console.log("Trying to post")

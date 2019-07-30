@@ -63,3 +63,19 @@ async function getSnippetById(id){
     return as;
   } catch(e) {console.log(e); throw e; }
 }
+
+async function createUser(email, password, name){
+  try {
+        var db = await sqlite.open(dbName);
+        await db.run("INSERT INTO User(email, password, name) Values(?, ?, ?)", [email, password, name]);
+      } catch (e) { throw e; }
+}
+
+async function getUserByEmail(email){
+  try {
+        var db = await sqlite.open(dbName);
+        var as = await db.get("select * from User where email = ?", [email]);
+        console.log(as);
+        return as;
+      } catch (e) { throw e; }
+}
