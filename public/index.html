@@ -20,16 +20,13 @@
     <link rel="stylesheet" href="jslib/codemirror/lib/codemirror.css">
     <script src="jslib/codemirror/mode/python/python.js"></script>
     <link rel="stylesheet" href="themes/w3.css">
-    <link href="themes/prism.css" rel="stylesheet" />
-    <script src="jslib/prism.js"></script>
+    <link rel="stylesheet" href="themes/global.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Physics Simulation Website powered by Pyodide">
     <meta name="author" content="Hemant Hari">
     <meta name="theme-color" content="#000000" />
     <script src="jslib/plotly-latest.min.js"></script>
-    <script type="text/javascript" src="testpy/randgauss.js"></script>
-    <script src="https://pyodide.cdn.iodide.io/pyodide.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <title></title>
   </head>
@@ -37,7 +34,7 @@
     <div id='app' class="w3-container w3-row">
       <div class="w3-container w3-black"> {{ pyodideLoaded ? "Python is now loaded!" : "Python is loading..." }} </div>
       <div class="w3-half w3-container w3-deep-orange" style="height:386px;"><div id="plotly" style="height:350px;"></div></div>
-      <div class="w3-half w3-container w3-blue">
+      <div class="w3-half w3-container w3-indigo">
         <div id="codeEditor" class="w3-panel"></div>
         <button class="w3-button w3-red w3-margin-bottom" v-on:click="runCode">Run it!</button>
       </div>
@@ -72,6 +69,8 @@
         </div>
       </div>
     </div>
-    <script src="jslib/app.js"></script>
+
+    <script src="https://pyodide.cdn.iodide.io/pyodide.js" defer></script>
+    <script src="jslib/app.js" defer></script>
   </body>
 </html>
