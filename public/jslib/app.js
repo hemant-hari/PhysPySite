@@ -104,7 +104,7 @@ var app = new Vue({
   mounted: function(){
     languagePluginLoader.then(function (){
       app.pyodideLoaded = true;
-      pyodide.loadPackage['numpy'];
+      pyodide.loadPackage(['numpy']);
     });
     self.myCodeMirror = CodeMirror(document.getElementById("codeEditor"), {
       value: '#Put Python code here! :)',
