@@ -31,13 +31,13 @@ require('./config/passport')(passport);
 app.use(express.static('public'));
 
 //use routers
-app.use('/snippet', snippetRouter);
-app.use('/register', registerRouter);
-app.use('/authenticate', authenticateRouter);
+app.use('/api/snippet', snippetRouter);
+app.use('/api/register', registerRouter);
+app.use('/api/authenticate', authenticateRouter);
 
-app.get('/', helloWorld);
-function helloWorld(req, res){
-  res.sendFile('public/index.html');
+app.get('/', entryPoint);
+function entryPoint(req, res){
+  res.sendFile('public/app.html');
 }
 
 app.listen(8000, () => console.log('listening on port 8000'));

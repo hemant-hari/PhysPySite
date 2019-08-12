@@ -1,3 +1,8 @@
 body {
-  font-family: Helvetica;
+  font-family: "Roboto", "Helvetica", sans-serif;
+}
+
+.w3-bar-block .w3-bar-item {
+  padding: 16px;
+  font-weight: bold;
 }
