@@ -1,26 +1,13 @@
-<!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <script>
-      window.onload = function(){
-          var old = console.log;
-          var logger = document.getElementById('log');
-          window.console.log = function () {
-            for (var i = 0; i < arguments.length; i++) {
-              if (typeof arguments[i] == 'object') {
-                  logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(arguments[i], undefined, 2) : arguments[i]) + '<br />';
-              } else {
-                  logger.innerHTML += arguments[i] + '<br />';
-              }
-            }
-          }
-      }
-    </script>
     <script src="jslib/codemirror/lib/codemirror.js"></script>
     <link rel="stylesheet" href="jslib/codemirror/lib/codemirror.css">
     <script src="jslib/codemirror/mode/python/python.js"></script>
     <link rel="stylesheet" href="themes/w3.css">
     <link rel="stylesheet" href="themes/global.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Physics Simulation Website powered by Pyodide">
@@ -28,48 +15,39 @@
     <meta name="theme-color" content="#000000" />
     <script src="jslib/plotly-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://pyodide.cdn.iodide.io/pyodide.js"></script>
+    <script src="jslib/router.js" defer></script>
+    <script src="jslib/w3.js" defer></script>
     <title></title>
   </head>
   <body>
-    <div id='app' class="w3-container w3-row">
-      <div class="w3-container w3-black"> {{ pyodideLoaded ? "Python is now loaded!" : "Python is loading..." }} </div>
-      <div class="w3-half w3-container w3-deep-orange" style="height:386px;"><div id="plotly" style="height:350px;"></div></div>
-      <div class="w3-half w3-container w3-indigo">
-        <div id="codeEditor" class="w3-panel"></div>
-        <button class="w3-button w3-red w3-margin-bottom" v-on:click="runCode">Run it!</button>
-      </div>
-      <div id='log' class="w3-half w3-container w3-light-gray" style="overflow-y:scroll;height:300px;max-height:300px">
-        <!-- <pre><code class="language-python"></code></pre> -->
-      </div>
-      <div class="w3-half w3-container w3-light-gray">
-        <h2>Pick options for the plot below!</h2>
-        <div id="plot-form">
-          <form class="w3-container">
-            <div class="w3-panel">
-              <h3>Type of Plot</h3>
-              <p>
-              <input type="radio" name="plot-type" value="lines+markers" v-model="plotType" checked/>
-              <label>Lines and Markers</label></p>
-              <p>
-              <input type="radio" name="plot-type" value="lines" v-model="plotType"/>
-              <label>Line</label></p>
-              <p>
-              <input type="radio" name="plot-type" value="markers" v-model="plotType"/>
-              <label>Scatter</label></p>
-            </div>
-            <div class="w3-panel">
-              <h3>Variables to plot</h3>
-              <label>X-Axis Array Name</label>
-              <input class="w3-input" type="text" value="X" v-model="xArray">
+    <div id='app' class="w3-row">
+      <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left w3-card" style="z-index:300;width:250px;" id="mySidebar">
+        <a class="w3-bar-item w3-button w3-hide-large w3-large" href="javascript:void(0)" onclick="w3_close()">Close <i class="fa fa-remove"></i></a>
+        <router-link class="w3-bar-item w3-button" to="/">Home</router-link>
+        <router-link class="w3-bar-item w3-button" to="/play">Play!</router-link>
+        <router-link class="w3-bar-item w3-button" to="#">Find a Snippet</router-link>
+        <router-link class="w3-bar-item w3-button" to="#">Submit a Snippet</router-link>
+        <router-link class="w3-bar-item w3-button" to="/login">Login</router-link>
+        <router-link class="w3-bar-item w3-button" to="/register">Register</router-link>
+      </nav>
 
-              <label>Y-Axis Array Name</label>
-              <input class="w3-input" type="text" value="Y" v-model="yArray">
-            </div>
-          </form>
-        </div>
+      <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="z-index:200;cursor:pointer" id="myOverlay"></div>
+
+      <div class="w3-main" style="margin-left:250px;">
+
+      <div id="myTop" class="w3-container w3-top w3-theme w3-large" style="z-index:30">
+        <p><i class="fa fa-bars w3-button w3-indigo w3-hide-large w3-xlarge" onclick="w3_open()"></i>
+        <span id="myIntro" class="w3-hide">PySite</span></p>
+      </div>
+
+      <header class="w3-container w3-theme" style="padding:48px 32px">
+        <h1 class="w3-xxxlarge">PySite</h1>
+      </header>
+
+      <router-view></router-view>
+
       </div>
     </div>
-    <script src="jslib/app.js" defer></script>
   </body>
-</html>

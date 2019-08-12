@@ -37,6 +37,7 @@ app.use('/api/authenticate', authenticateRouter);
 
 app.get('/', entryPoint);
 function entryPoint(req, res){
+  console.log("here I am buddy boy");
   res.sendFile('public/app.html');
 }
 
