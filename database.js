@@ -1,6 +1,13 @@
 "use strict"
 var sqlite = require('sqlite')
 
+module.exports = {
+  createUser: createUser,
+  getUserByEmail: getUserByEmail,
+  getSnippetById: getSnippetById,
+  createSnippet: createSnippet,
+}
+
 const dbName = "./db.sqlite"
 
 async function createUserSchema(){
@@ -15,7 +22,7 @@ async function createUserSchema(){
         var as = await db.all("select * from User");
         db.close();
         console.log(as);
-      } catch (e) { console.log(e); }
+      } catch (e) { console.log(e); throw (e); }
 }
 
 async function createSnippetSchema(){
@@ -30,17 +37,7 @@ async function createSnippetSchema(){
                     FOREIGN KEY (userEmail) REFERENCES User(email)
                   )`);
     db.close();
-  } catch (e) { console.log(e); }
-}
-
-async function getUserByEmail(email){
-  try {
-        var db = await sqlite.open("./db.sqlite");
-        var as = await db.get("select * from User where email = ?", [email]);
-        db.close();
-        console.log(as);
-        return as;
-      } catch (e) { throw e; }
+  } catch (e) { console.log(e); throw (e); }
 }
 
 async function createSnippet(userEmail, code, description){
@@ -68,7 +65,7 @@ async function createUser(email, password, name){
   try {
         var db = await sqlite.open(dbName);
         await db.run("INSERT INTO User(email, password, name) Values(?, ?, ?)", [email, password, name]);
-      } catch (e) { throw e; }
+      } catch (e) { console.log(e); throw e; }
 }
 
 async function getUserByEmail(email){

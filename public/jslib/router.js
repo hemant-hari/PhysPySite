@@ -1,61 +1,298 @@
 const Login = {
   template: `
   <div class="w3-container w3-row w3-padding-large">
+    <div
+      id="warningMessage"
+      class="w3-panel w3-yellow w3-border w3-row"
+      v-if="!validForm"
+    >
+      <span
+        onclick="this.parentElement.style.display='none'"
+        class="w3-button w3-yellow w3-col"
+        style="width:5%"
+      >
+        x
+      </span>
+      <ul class="w3-ul w3-rest">
+        <li v-for="error in errors">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
     <div class="w3-container w3-third"></div>
     <div class="w3-card-4 w3-third">
       <div class="w3-container w3-theme-l1">
         <h2>Login</h2>
       </div>
 
-      <form class="w3-container">
+      <form
+        class="w3-container"
+        @submit="checkForm"
+        action="/api/register"
+        method="post"
+      >
         <div class="w3-row w3-section">
-          <input class="w3-input w3-border w3-padding" name="email" type="email" placeholder="E-mail">
+          <input
+          class="w3-input w3-border w3-padding"
+          name="email"
+          type="email"
+          v-model="userEmail"
+          placeholder="E-mail">
         </div>
 
         <div class="w3-section">
-          <input class="w3-input w3-border w3-padding" name="password" type="password" placeholder="Password">
+          <input
+            class="w3-input w3-border w3-padding"
+            name="password"
+            type="password"
+            v-model="password"
+            placeholder="Password">
         </div>
 
         <p>
-        <button class="w3-button w3-red w3-hover-orange w3-padding">Login</button></p>
+          <input
+            class="w3-button w3-red w3-hover-orange w3-padding"
+            type="submit"
+            value="Login"
+          ></input>
+        </p>
       </form>
     </div>
-  </div>`
+  </div>`,
+  data: function() {
+    return {
+      userEmail: "",
+      password: "",
+      isLoading: false,
+      validForm: true,
+      errors: []
+    }
+  },
+  methods: {
+    checkForm: function(e) {
+      var self = this;
+      this.errors = [];
+      e.preventDefault();
+
+      if (!this.userEmail) {
+        this.errors.push('Email required');
+      }
+      else if (!this.validEmail(this.userEmail)) {
+        this.errors.push('Valid email required.');
+      }
+
+      if (!this.password) {
+        this.errors.push("Password required.");
+      }
+
+      if (!this.errors.length) {
+        this.isLoading = true;
+        fetch("/api/authenticate", {
+          method: 'post',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            email: self.userEmail,
+            password: self.password,
+          })
+        }).then(res => res.json())
+          .then((result) => {
+              self.isLoading = false;
+              if (!result.success){
+                self.errors.push(result.message);
+                self.validForm = false;
+                return false;
+              }
+              localStorage.loginState = {
+                loggedIn: true,
+                authToken: result.token,
+                userName: result.user.name
+              }
+              self.$router.push('/');
+            },
+            (error) => {
+              console.log(error);
+              self.isLoading = false;
+              self.errors.push("Login failed, try again in a while!");
+            });
+      }
+
+      this.validForm = false;
+      if (document.getElementById("warningMessage")){
+        document.getElementById("warningMessage").style.display = 'block';
+      }
+    },
+    validEmail: function (email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
+  }
 };
 
 const Register = {
   template: `
   <div class="w3-container w3-row w3-padding-large">
-    <div class="w3-container w3-third"></div>
-    <div class="w3-card w3-third">
+    <div
+      id="warningMessage"
+      class="w3-panel w3-yellow w3-border w3-row"
+      v-if="!validForm"
+    >
+      <span
+        onclick="this.parentElement.style.display='none'"
+        class="w3-button w3-yellow w3-col"
+        style="width:5%"
+      >
+        x
+      </span>
+      <ul class="w3-ul w3-rest">
+        <li v-for="error in errors">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
+    <div class="w3-container w3-quarter"></div>
+    <div class="w3-card w3-half">
       <div class="w3-container w3-theme-l1">
         <h2>Register an account!</h2>
       </div>
 
-      <form class="w3-container w3-row">
+      <form
+        class="w3-container w3-row"
+        @submit="checkForm"
+        action="/api/register"
+        method="post"
+      >
         <div class="w3-row w3-section">
-          <input class="w3-input w3-border w3-half w3-padding" name="first" type="text" placeholder="First Name">
-          <input class="w3-input w3-border w3-half w3-padding" name="last" type="text" placeholder="Last Name">
+          <input
+            class="w3-input w3-border w3-half w3-padding"
+            name="first"
+            type="text"
+            v-model="firstName"
+            placeholder="First Name"
+          >
+          <input
+            class="w3-input w3-border w3-half w3-padding"
+            name="last"
+            type="text"
+            v-model="lastName"
+            placeholder="Last Name"
+          >
         </div>
 
         <div class="w3-row w3-section">
-          <input class="w3-input w3-border w3-padding" name="email" type="email" placeholder="E-mail">
+          <input
+            class="w3-input w3-border w3-padding"
+            name="email"
+            type="email"
+            v-model="userEmail"
+            placeholder="E-mail"
+          >
         </div>
 
         <div class="w3-section">
-          <input class="w3-input w3-border w3-padding" name="password" type="password" placeholder="Password">
+          <input
+            class="w3-input w3-border w3-padding"
+            name="password"
+            type="password"
+            v-model="password"
+            placeholder="Password"
+          >
         </div>
 
         <div class="w3-section">
-          <input class="w3-input w3-border w3-padding" name="confirm" type="password" placeholder="Confirm Password">
+          <input
+            class="w3-input w3-border w3-padding"
+            name="confirm"
+            type="password"
+            v-model="confirmPassword"
+            placeholder="Confirm Password"
+          >
         </div>
 
         <p>
-        <button class="w3-button w3-red w3-hover-orange w3-padding">Register</button></p>
+          <input
+            class="w3-button w3-red w3-hover-orange w3-padding"
+            type="submit"
+            value="Register"
+          >
+        </p>
       </form>
     </div>
-  </div>`
-}
+  </div>`,
+  data: function() {
+    return {
+      userEmail: "",
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      isLoading: false,
+      validForm: true,
+      errors: []
+    }
+  },
+  methods: {
+    checkForm: function(e) {
+      var self = this;
+      this.errors = [];
+      e.preventDefault();
+
+      if (!this.userEmail) {
+        this.errors.push('Email required');
+      }
+      else if (!this.validEmail(this.userEmail)) {
+        this.errors.push('Valid email required.');
+      }
+
+      if (!this.firstName) {
+        this.errors.push("First name required.");
+      }
+
+      if (!this.lastName) {
+        this.errors.push("Last name required.");
+      }
+
+      if (!this.password) {
+        this.errors.push("Password required.");
+      }
+      else if (this.password != this.confirmPassword) {
+        this.errors.push("Confirmation password not the same");
+      }
+
+      if (!this.errors.length) {
+        this.isLoading = true;
+        fetch("/api/register", {
+          method: 'post',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            email: self.userEmail,
+            password: self.password,
+            first: self.firstName,
+            last: self.lastName
+          })
+        }).then(res => res.json())
+          .then((result) => {
+              self.isLoading = false;
+              if (!result.success){
+                self.errors.push("Registering failed, try again in a while!");
+                return false;
+              }
+              self.$router.push('/');
+            },
+            (error) => {
+              self.isLoading = false;
+              self.errors.push("Registering failed, try again in a while!");
+            });
+      }
+
+      this.validForm = false;
+      document.getElementById("warningMessage").style.display = 'block';
+    },
+    validEmail: function (email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
+  }
+};
 
 const Play = {
   template: `
@@ -227,6 +464,7 @@ const app = new Vue({
   data: {
     loginState: {
       loggedIn: false,
+      authToken: '',
       userName: ''
     }
   },

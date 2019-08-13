@@ -8,10 +8,12 @@ var cred=credential();
 
 /* POST register a new user. */
 router.post('/', function(req, res, next) {
-  var name = req.body.name;
+  var name = req.body.first + req.body.last;
   var pwd = req.body.password;
   var email = req.body.email;
   //var pwdReqs = //;
+
+  console.log(req.body);
 
   cred.hash(pwd, registerUser);
   async function registerUser(err, hashedPassword){
@@ -20,7 +22,7 @@ router.post('/', function(req, res, next) {
     }
     else{
       try{
-        await database.createUser(email, hashedPassword, name);
+        var ret = await database.createUser(email, hashedPassword, name);
         res.json({success: true, msg: 'User created successfully'});
       } catch (e) {
         console.log(e);

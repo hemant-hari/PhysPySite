@@ -29,8 +29,8 @@
         <router-link class="w3-bar-item w3-button" to="/play">Play!</router-link>
         <router-link class="w3-bar-item w3-button" to="#">Find a Snippet</router-link>
         <router-link class="w3-bar-item w3-button" to="#">Submit a Snippet</router-link>
-        <router-link class="w3-bar-item w3-button" to="/login">Login</router-link>
-        <router-link class="w3-bar-item w3-button" to="/register">Register</router-link>
+        <router-link class="w3-bar-item w3-button" v-if="!loginState.loggedIn" to="/login">Login</router-link>
+        <router-link class="w3-bar-item w3-button" v-if="!loginState.loggedIn" to="/register">Register</router-link>
       </nav>
 
       <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="z-index:200;cursor:pointer" id="myOverlay"></div>

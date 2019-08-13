@@ -21,11 +21,14 @@ router.post('/', async function(req, res, next) {
   if (!userData){
     return res.json({success: false, message: 'User does not exist'});
   }
-
   var storedHash = userData.password;
   cred.verify(storedHash, pwd, authUser);
   async function authUser(err, isValid){
-    if (err) throw err;
+    console.log("authorising " + err + isValid);
+    if (err) {
+      console.log(err);
+      return res.json({success: false, message: 'User does not exist'});
+    };
     if (isValid){
       const token = await jwt.sign({"email": userData.email}, config.secret, {expiresIn: 604800});
       var authJson = {
@@ -36,7 +39,7 @@ router.post('/', async function(req, res, next) {
           name: userData.name
         }
       };
-
+      console.log(authJson);
       res.json(authJson);
     }
     else {
