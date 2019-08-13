@@ -1,0 +1,66 @@
+<html lang="en" dir="ltr">
+  <head>
+    <script src="jslib/codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="jslib/codemirror/lib/codemirror.css">
+    <script src="jslib/codemirror/mode/python/python.js"></script>
+    <link rel="stylesheet" href="themes/w3.css">
+    <link rel="stylesheet" href="themes/global.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-indigo.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Physics Simulation Website powered by Pyodide">
+    <meta name="author" content="Hemant Hari">
+    <meta name="theme-color" content="#000000" />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="jslib/w3.js" defer></script>
+    <title></title>
+  </head>
+  <body>
+    <div class="w3-container w3-row">
+      <div class="w3-container w3-quarter"></div>
+      <div class="w3-half w3-theme-light">
+        <h2 class="w3-container w3-xxlarge w3-theme-d3"> Title </h2>
+        <div
+          id="description"
+          class="w3-panel w3-theme-light"
+        >
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+          nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+          qui officia deserunt mollit anim id est laborum.
+
+          <p>
+            When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+            $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+          </p>
+
+          <p>
+              $$y = { \int_a^b x }.$$
+          </p>
+
+          <p>
+            $$\sum_{i=1}^{\left[\frac{n}{2}\right]}\binom{x_{i,i+1}^{i^{2}}}
+            {\left[\frac{i+3}{3}\right]}\frac{\sqrt{\mu(i)^{\frac{3}
+            {2}}(i^{2}-1)}}{\sqrt[3]{\rho(i)-2}+\sqrt[3]{\rho(i)-1}}.$$
+          </p>
+        </div>
+
+        <div
+          class="w3-container w3-theme-l3"
+          style="height:386px;"
+        >
+          <div
+            id="plotly"
+            style="height:350px;"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </body>

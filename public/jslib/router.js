@@ -306,7 +306,48 @@ const Register = {
 
 var Snippet = {
   template: `
-  <div class="w3-container">
+  <div class="w3-container w3-row">
+    <div class="w3-container w3-quarter"></div>
+    <div class="w3-half w3-theme-light">
+      <h2 class="w3-container w3-xxlarge w3-theme-d3"> Title </h2>
+      <div
+        id="description"
+        class="w3-panel w3-theme-light"
+      >
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
+        qui officia deserunt mollit anim id est laborum.
+
+        <p>
+          When \\(a \\ne 0\\), there are two solutions to \\(ax^2 + bx + c = 0\\) and they are
+          $$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$
+        </p>
+
+        <p>
+            $$y = { \\int_a^b x }.$$
+        </p>
+
+        <p>
+          $$\\sum_{i=1}^{\\left[\\frac{n}{2}\\right]}\\binom{x_{i,i+1}^{i^{2}}}
+          {\\left[\\frac{i+3}{3}\\right]}\\frac{\\sqrt{\\mu(i)^{\\frac{3}
+          {2}}(i^{2}-1)}}{\\sqrt[3]{\\rho(i)-2}+\\sqrt[3]{\\rho(i)-1}}.$$
+        </p>
+      </div>
+
+      <div
+        class="w3-container w3-theme-l3"
+        style="height:386px;"
+      >
+        <div
+          id="plotly"
+          style="height:350px;"
+        ></div>
+      </div>
+    </div>
   </div>
   `,
 
@@ -502,12 +543,14 @@ const app = new Vue({
   },
   mounted() {
     if (localStorage.loginState) {
-      this.loginState = localStorage.loginState;
+      console.log("state loaded!");
+      this.loginState = JSON.parse(localStorage.loginState);
     }
   },
   watch: {
     loginState(newState) {
-      localStorage.loginState = this.loginState;
+      console.log(this.loginState);
+      localStorage.loginState = JSON.stringify(this.loginState);
     }
   }
 }).$mount('#app')

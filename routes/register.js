@@ -8,7 +8,7 @@ var cred=credential();
 
 /* POST register a new user. */
 router.post('/', function(req, res, next) {
-  var name = req.body.first + req.body.last;
+  var name = req.body.first + " " + req.body.last;
   var pwd = req.body.password;
   var email = req.body.email;
   //var pwdReqs = //;
