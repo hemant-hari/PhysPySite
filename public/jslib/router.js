@@ -14,6 +14,7 @@ const Login = {
         x
       </span>
       <ul class="w3-ul w3-rest">
+        <li v-if="isLoading"> Logging in... </li>
         <li v-for="error in errors">
           {{ error }}
         </li>
@@ -74,6 +75,10 @@ const Login = {
       this.errors = [];
       e.preventDefault();
 
+      if (this.isLoading){
+        return;
+      }
+
       if (!this.userEmail) {
         this.errors.push('Email required');
       }
@@ -102,11 +107,12 @@ const Login = {
                 self.validForm = false;
                 return false;
               }
-              localStorage.loginState = {
+              var newLoginState = {
                 loggedIn: true,
                 authToken: result.token,
                 userName: result.user.name
               }
+              self.$root.$data.loginState = newLoginState;
               self.$router.push('/');
             },
             (error) => {
@@ -236,6 +242,10 @@ const Register = {
       this.errors = [];
       e.preventDefault();
 
+      if (this.isLoading){
+        return;
+      }
+
       if (!this.userEmail) {
         this.errors.push('Email required');
       }
@@ -293,6 +303,14 @@ const Register = {
     }
   }
 };
+
+var Snippet = {
+  template: `
+  <div class="w3-container">
+  </div>
+  `,
+
+}
 
 const Play = {
   template: `
@@ -454,6 +472,7 @@ const Play = {
 const router = new VueRouter({
   routes: [
     {path: '/play', component: Play},
+    {path: '/snippet', component: Snippet},
     {path: '/login', component: Login},
     {path: '/register', component: Register}
   ]
@@ -466,6 +485,19 @@ const app = new Vue({
       loggedIn: false,
       authToken: '',
       userName: ''
+    }
+  },
+  methods: {
+    logoutUser: function(e) {
+      e.preventDefault();
+
+      this.loginState = {
+        loggedIn: false,
+        authToken: '',
+        userName: ''
+      };
+
+      this.$router.push('/');
     }
   },
   mounted() {
