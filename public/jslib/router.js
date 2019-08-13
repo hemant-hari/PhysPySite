@@ -1,3 +1,11 @@
+const testcode = `
+import numpy as np
+
+X = np.linspace(0,3,101)
+
+Y = np.exp(X)
+`
+
 const Login = {
   template: `
   <div class="w3-container w3-row w3-padding-large">
@@ -309,7 +317,7 @@ var Snippet = {
   <div class="w3-container w3-row">
     <div class="w3-container w3-quarter"></div>
     <div class="w3-half w3-theme-light">
-      <h2 class="w3-container w3-xxlarge w3-theme-d3"> Title </h2>
+      <h2 class="w3-container w3-xxlarge w3-theme-d3" v-on:click="runCode"> Title </h2>
       <div
         id="description"
         class="w3-panel w3-theme-light"
@@ -350,7 +358,112 @@ var Snippet = {
     </div>
   </div>
   `,
+  data: function() {
+    return {
+      code: testcode,
+      pyodideLoaded: false,
+      consoleOutput: '',
+      plotType: "lines+markers",
+      xArray: "X",
+      yArray: "Y"
+    }
+  },
+  methods: {
+    runCode: function(){
+      if (!this.pyodideLoaded) return;
+      var self = this;
+      console.log(self.code);
+      pyodide.runPythonAsync(this.code).then(function(val){
+          console.log(pyodide.globals);
+          Plotly.newPlot('plotly', {
+            data: [{
+              x: pyodide.globals[self.xArray],
+              y: pyodide.globals[self.yArray],
+              mode: self.plotType,
+              transforms: [{
+                type: 'filter',
+                operation: '<=',
+                target: pyodide.globals[self.xArray],
+                value: 0.0
+              }]
+            }],
+            layout: {
+              updatemenus: [{
+                type: 'buttons',
+                xanchor: 'left',
+                yanchor: 'top',
+                direction: 'right',
+                x: 0,
+                y: 0,
+                pad: {t: 60},
+                showactive: false,
+                buttons: [{
+                  label: 'Play',
+                  method: 'animate',
+                  args: [null, {
+                    transition: {duration: 0},
+                    frame: {duration: 20, redraw: false},
+                    mode: 'immediate',
+                    fromcurrent: true,
+                  }]
+                }, {
+                  label: 'Pause',
+                  method: 'animate',
+                  args: [[null], {
+                    frame: {duration: 0, redraw: false},
+                    mode: 'immediate',
+                  }]
+                }]
+              }],
+              sliders: [{
+                currentvalue: {
+                  prefix: 'X = ',
+                  xanchor: 'right'
+                },
+                pad: {l: 130, t: 30},
+                transition: {
+                  duration: 0,
+                },
+                steps: Array.from(pyodide.globals[self.xArray]).map(function(t, i) {
+                  return {
+                    label: t,
+                    method: 'animate',
+                    args: [[i], {
+                      frame: {duration: 0, redraw: false},
+                      mode: 'immediate',
+                    }]
+                  }
+                })
+              }]
+            },
+            frames: Array.from(pyodide.globals[self.xArray]).map(function(t, i) {
+              return {
+              name: i,
+              data: [{y: pyodide.globals[self.yArray].slice(0, i+1)}]
+              }
+            }),
+            config: { responsive: true }
+          })
 
+      });
+    }
+  },
+  mounted: function(){
+    var inst = this;
+    languagePluginLoader.then(function (){
+      inst.pyodideLoaded = true;
+      pyodide.loadPackage(['numpy']);
+    });
+    self.myCodeMirror = CodeMirror(document.getElementById("codeEditor"), {
+      value: '#Put Python code here! :)',
+      lineNumbers: true,
+      indentWithTabs: true
+    });
+    self.myCodeMirror.on("change", function(instance, changeObj){
+      inst.code = instance.getValue();
+    });
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+  }
 }
 
 const Play = {
