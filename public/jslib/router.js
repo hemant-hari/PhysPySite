@@ -6,6 +6,72 @@ X = np.linspace(0,3,101)
 Y = np.exp(X)
 `
 
+const Home = {
+  template: `
+  <div class="w3-container w3-row">
+    <div class="w3-container w3-quarter"></div>
+    <div class="w3-card w3-half w3-theme-light">
+      <h2 class="w3-container w3-xlarge w3-theme-d3"> What is PySite? </h2>
+      <div
+        id="description"
+        class="w3-panel w3-theme-light"
+      >
+        <p>
+          PySite is an easy way to share and find helpful visualisations and simulations
+          of various physics and mathematical concepts. PySite has an embedded
+          Python environment that lets you run Python code in your browser with
+          no additional installations! This is made possible by the
+          <a href="https://github.com/iodide-project/pyodide">Pyodide</a> project.
+        </p>
+
+        <p>
+          The website lets educators and other students write and submit code which
+          is automatically converted to visualisations through the Plotly.JS graphing
+          library. The code is submitted alongside some notes to better explain the
+          code and underlying concepts. There is support for embedding LaTeX equations
+          in theses snippets and the code will auto-run to produce the visualisations.
+          You can play around with the Python coding environment and plotting options in
+          the <router-link to="/play">Play!</router-link> section of the website.
+        </p>
+      </div>
+
+      <h2 class="w3-container w3-xlarge w3-theme-d3"> Motivation </h2>
+      <div
+        id="description"
+        class="w3-panel w3-theme-light"
+      >
+        <p>
+          In my time studying Physics at the University of Bristol I found that
+          some concepts tend to be really hard to grasp when looking at just the
+          equations, or even static graphs. After a second-year computational
+          physics unit I found myself using Python very often to supplement my
+          learning of many units. I found that writing out some code to visualise
+          a model and then playing with the paramaters often helped my conceptual
+          understanding of various very abstract concepts and very complex
+          behaviours.
+        </p>
+
+        <p>
+          My objective with PySite is to make this sort of learning approach more
+          accessible in a few ways.
+          <ul>
+            <li>Make it easy to code and view the visualisations</li>
+            <li>Make it possible (and easy) for educators to share code they
+             may come up with</li>
+            <li>Let someone with limited coding experience have a good experience
+            using the platform</li>
+            <li>Let these people with limited coding experience learn a little
+            bit about coding through interacting with the Snippets</li>
+          </ul>
+          Above all, help students of physics and maths learn in a more fun
+          and interactive way!
+        </p>
+      </div>
+    </div>
+  </div>
+  `
+}
+
 const Login = {
   template: `
   <div class="w3-container w3-row w3-padding-large">
@@ -316,7 +382,7 @@ var Snippet = {
   template: `
   <div class="w3-container w3-row">
     <div class="w3-container w3-quarter"></div>
-    <div class="w3-half w3-theme-light">
+    <div class="w3-card w3-half w3-theme-light">
       <h2 class="w3-container w3-xxlarge w3-theme-d3" v-on:click="runCode"> Title </h2>
       <div
         id="description"
@@ -625,6 +691,7 @@ const Play = {
 
 const router = new VueRouter({
   routes: [
+    {path: '/', component: Home},
     {path: '/play', component: Play},
     {path: '/snippet', component: Snippet},
     {path: '/login', component: Login},
