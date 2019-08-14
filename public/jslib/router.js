@@ -47,8 +47,7 @@ const Home = {
           physics unit I found myself using Python very often to supplement my
           learning of many units. I found that writing out some code to visualise
           a model and then playing with the paramaters often helped my conceptual
-          understanding of various very abstract concepts and very complex
-          behaviours.
+          understanding of various abstract concepts and complex behaviours and models.
         </p>
 
         <p>
