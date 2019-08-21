@@ -44,7 +44,7 @@ async function createSnippet(userEmail, code, description){
   try {
     var db = await sqlite.open("./db.sqlite");
     await db.run("INSERT INTO Snippet(userEmail, code, description) Values(?, ?, ?)", [userEmail, state, title]);
-    var as = await db.get("SELECT id FROM Tournament ORDER BY id DESC LIMIT 1");
+    var as = await db.get("SELECT id FROM Snippet ORDER BY id DESC LIMIT 1");
     db.close();
     console.log(as);
     return as;

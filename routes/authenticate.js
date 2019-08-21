@@ -9,7 +9,15 @@ var config = require('../config/auth');
 var cred=credential();
 
 /* POST register a new user. */
-router.post('/', async function(req, res, next) {
+router.post('/', [
+  check('email')
+    .isEmail()
+    .normalizeEmail(),
+  check('password').isLength({ min: 5 }),
+  body('email')
+    .isEmail()
+    .normalizeEmail()
+], async function(req, res, next) {
   var email = req.body.email;
   var pwd = req.body.password;
   try{
