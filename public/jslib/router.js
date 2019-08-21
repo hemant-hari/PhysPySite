@@ -176,8 +176,12 @@ const Login = {
           .then((result) => {
               self.isLoading = false;
               if (!result.success){
-                self.errors.push(result.message);
-                self.validForm = false;
+                if (result.message) {
+                  self.errors.push(result.message);
+                  self.validForm = false;
+                  return false;
+                }
+                self.errors.push("Form validation failed at server!");
                 return false;
               }
               var newLoginState = {
@@ -437,10 +441,9 @@ var Snippet = {
     runCode: function(){
       if (!this.pyodideLoaded) return;
       var self = this;
-      console.log(self.code);
       pyodide.runPythonAsync(this.code).then(function(val){
           console.log(pyodide.globals);
-          Plotly.newPlot('plotly', {
+          Plotly.react('plotly', {
             data: [{
               x: pyodide.globals[self.xArray],
               y: pyodide.globals[self.yArray],
@@ -587,7 +590,7 @@ const Play = {
       console.log(self.code);
       pyodide.runPythonAsync(this.code).then(function(val){
           console.log(pyodide.globals);
-          Plotly.newPlot('plotly', {
+          Plotly.react('plotly', {
             data: [{
               x: pyodide.globals[self.xArray],
               y: pyodide.globals[self.yArray],

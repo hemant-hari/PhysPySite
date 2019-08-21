@@ -3,6 +3,10 @@ body {
   text-align: justify;
 }
 
+.submission {
+  white-space: pre-wrap;
+}
+
 .w3-bar-block .w3-bar-item {
   padding: 16px;
   font-weight: bold;
