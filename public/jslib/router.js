@@ -1,9 +1,33 @@
 const testcode = `
 import numpy as np
+#### Change the values on the right side here! ####
+x0 = 0
+y0 = 0
+v = 20
+angle_degrees = 25
+g = -9.8
+numpoints = 101
 
-X = np.linspace(0,3,101)
+################ MATHS! ###################
+i=0
+angle_radians = angle_degrees * np.pi / 180
+v_x = v * np.cos(angle_radians)
+v_y = v * np.sin(angle_radians)
 
-Y = np.exp(X)
+X = np.zeros(numpoints)
+Y = np.zeros(numpoints)
+
+def suvat(u,t, a=-9.8):
+    return u*t + a*t*t/2
+
+for t in np.linspace(0,2.2,numpoints):
+    Y[i] = suvat(v_y,t,g)
+    X[i] = suvat(v_x,t,0)
+    if(Y[i] < 0):
+        Y[i] = 0
+        print(X[i])
+        break
+    i+=1
 `
 
 const Home = {
@@ -389,7 +413,7 @@ var Snippet = {
       <h2 class="w3-container w3-xxlarge w3-theme-d3" v-on:click="runCode"> Title </h2>
       <div
         id="description"
-        class="w3-panel w3-theme-light"
+        class="w3-panel w3-theme-light submission"
       >
         Lorem ipsum dolor sit amet, consectetur adipisicing elit,
         sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -398,21 +422,9 @@ var Snippet = {
         reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
         qui officia deserunt mollit anim id est laborum.
+          $$s = ut + \\frac{1}{2}at^2.$$
 
-        <p>
-          When \\(a \\ne 0\\), there are two solutions to \\(ax^2 + bx + c = 0\\) and they are
-          $$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.$$
-        </p>
-
-        <p>
-            $$y = { \\int_a^b x }.$$
-        </p>
-
-        <p>
-          $$\\sum_{i=1}^{\\left[\\frac{n}{2}\\right]}\\binom{x_{i,i+1}^{i^{2}}}
-          {\\left[\\frac{i+3}{3}\\right]}\\frac{\\sqrt{\\mu(i)^{\\frac{3}
-          {2}}(i^{2}-1)}}{\\sqrt[3]{\\rho(i)-2}+\\sqrt[3]{\\rho(i)-1}}.$$
-        </p>
+        Hey there
       </div>
 
       <div
@@ -432,7 +444,7 @@ var Snippet = {
       code: testcode,
       pyodideLoaded: false,
       consoleOutput: '',
-      plotType: "lines+markers",
+      plotType: "lines",
       xArray: "X",
       yArray: "Y"
     }
