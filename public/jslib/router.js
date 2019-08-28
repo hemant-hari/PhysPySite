@@ -594,6 +594,191 @@ var Snippet1 = {
   }
 }
 
+var Snippet2 = {
+  template: `
+  <div class="w3-container w3-row">
+    <div class="w3-container w3-quarter"></div>
+    <div class="w3-card w3-half w3-theme-light">
+      <h2 class="w3-container w3-xxlarge w3-theme-d3"> {{ title }} </h2>
+      <div
+        id="description"
+        class="w3-panel w3-theme-light submission"
+      >
+        The behaviour of a particle moving under constant acceleration is often
+        described by the SUVAT equations. SUVAT is an acronym representing the
+        five variables used in these equations
+
+        S - Displacement
+        U - Initial Velocity
+        V - Final Velocity
+        A - Acceleration
+        T - Time
+
+        Below you can find the SUVAT equations
+
+        1.  \\(s = ut + \\frac{1}{2}at^2\\)
+
+        2.  \\(v = u + at\\)
+
+        3.  \\(v^2 = u^2 + 2as\\)
+
+        These equations are commonly used in projectile motion problems under a
+        constant graviational force. The steps to solving such problems are as
+        below:
+
+        1. Identify variables that are known.
+
+        2. Identify variables that need to be found
+
+        3. Split the variables into their components along the x and y axes (if appropriate)
+
+        4. Look at the equations and find which equations are most appropriate to solve the problem
+
+        5. Insert the variables into the appropriate equation and solve for the
+           required value.
+
+        Look at the first few lines of code below and change the values after the
+        equals-to sign to different values to see how it affects various parameters
+        of projectile motion. Try changing velocity, angle, initial position, etc.
+
+        The code itself is straightforward. It implements the first SUVAT equation
+        above to implement
+      </div>
+
+      <div
+        class="w3-container w3-theme-l3"
+        style="height:386px;"
+      >
+        <div
+          id="plotly"
+          style="height:350px;"
+        ></div>
+      </div>
+    </div>
+  </div>
+  `,
+  data: function() {
+    return {
+      title: "SUVAT Equations and Mechanics",
+      code: testcode,
+      pyodideLoaded: false,
+      consoleOutput: '',
+      plotType: "lines",
+      xArray: "X",
+      yArray: "Y"
+    }
+  },
+  methods: {
+    runCode: function(){
+      if (!this.pyodideLoaded) return;
+      var self = this;
+      pyodide.runPythonAsync(this.code).then(function(val){
+        console.log(document.getElementById('plotly').hasChildNodes());
+        if(document.getElementById('plotly').hasChildNodes()){
+          console.log("new trace");
+          newTrace = {
+            x: pyodide.globals[self.xArray],
+            y: pyodide.globals[self.yArray],
+            name: pyodide.globals.angle_degrees,
+            mode: self.plotType
+          }
+          Plotly.addTraces(document.getElementById('plotly'), newTrace);
+        }
+        else{
+          console.log("new plot");
+          Plotly.react('plotly', {
+            data: [{
+              x: pyodide.globals[self.xArray],
+              y: pyodide.globals[self.yArray],
+              mode: self.plotType,
+              transforms: [{
+                type: 'filter',
+                operation: '<=',
+                target: pyodide.globals[self.xArray],
+                value: 0.0
+              }]
+            }],
+            layout: {
+              updatemenus: [{
+                type: 'buttons',
+                xanchor: 'left',
+                yanchor: 'top',
+                direction: 'right',
+                x: 0,
+                y: 0,
+                pad: {t: 60},
+                showactive: false,
+                buttons: [{
+                  label: 'Play',
+                  method: 'animate',
+                  args: [null, {
+                    transition: {duration: 0},
+                    frame: {duration: 20, redraw: false},
+                    mode: 'immediate',
+                    fromcurrent: true,
+                  }]
+                }, {
+                  label: 'Pause',
+                  method: 'animate',
+                  args: [[null], {
+                    frame: {duration: 0, redraw: false},
+                    mode: 'immediate',
+                  }]
+                }]
+              }],
+              sliders: [{
+                currentvalue: {
+                  prefix: 'X = ',
+                  xanchor: 'right'
+                },
+                pad: {l: 130, t: 30},
+                transition: {
+                  duration: 0,
+                },
+                steps: Array.from(pyodide.globals[self.xArray]).map(function(t, i) {
+                  return {
+                    label: t,
+                    method: 'animate',
+                    args: [[i], {
+                      frame: {duration: 0, redraw: false},
+                      mode: 'immediate',
+                    }]
+                  }
+                })
+              }]
+            },
+            frames: Array.from(pyodide.globals[self.xArray]).map(function(t, i) {
+              return {
+              name: i,
+              data: [{y: pyodide.globals[self.yArray].slice(0, i+1)}]
+              }
+            }),
+            config: { responsive: true }
+          })
+        }
+      });
+    }
+  },
+  mounted: function(){
+    var inst = this;
+    languagePluginLoader.then(function (){
+      inst.pyodideLoaded = true;
+      pyodide.loadPackage(['numpy']);
+      inst.runCode();
+    });
+    self.myCodeMirror = CodeMirror(document.getElementById("codeEditor"), {
+      value: testcode,
+      lineNumbers: true,
+      indentWithTabs: true
+    });
+    self.myCodeMirror.on("change", function(instance, changeObj){
+      inst.code = instance.getValue();
+      console.log("code changed");
+    });
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+  }
+}
+
 const Play = {
   template: `
   <div class="w3-row">
@@ -756,6 +941,7 @@ const router = new VueRouter({
     {path: '/', component: Home},
     {path: '/play', component: Play},
     {path: '/snippet', component: Snippet1},
+    {path: '/snippetstatic', component: Snippet2},
     {path: '/login', component: Login},
     {path: '/register', component: Register}
   ]
