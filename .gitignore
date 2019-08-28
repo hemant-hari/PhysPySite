@@ -2,3 +2,4 @@
 /pyodide-build-0.13.0
 *.data
 *.exe
+pyodide-build-0.13.0/atomicwrites.js
