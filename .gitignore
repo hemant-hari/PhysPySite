@@ -1,4 +1,4 @@
 /node_modules
-
+/pyodide-build-0.13.0
 *.data
 *.exe

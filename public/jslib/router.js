@@ -1,5 +1,4 @@
-const testcode = `
-import numpy as np
+const testcode = `import numpy as np
 #### Change the values on the right side here! ####
 x0 = 0
 y0 = 0
@@ -20,7 +19,7 @@ Y = np.zeros(numpoints)
 def suvat(u,t, a=-9.8):
     return u*t + a*t*t/2
 
-for t in np.linspace(0,2.2,numpoints):
+for t in np.linspace(0,10,numpoints):
     Y[i] = suvat(v_y,t,g)
     X[i] = suvat(v_x,t,0)
     if(Y[i] < 0):
@@ -405,26 +404,60 @@ const Register = {
   }
 };
 
-var Snippet = {
+var Snippet1 = {
   template: `
   <div class="w3-container w3-row">
     <div class="w3-container w3-quarter"></div>
     <div class="w3-card w3-half w3-theme-light">
-      <h2 class="w3-container w3-xxlarge w3-theme-d3" v-on:click="runCode"> Title </h2>
+      <h2 class="w3-container w3-xxlarge w3-theme-d3" v-on:click="runCode"> {{ title }} </h2>
       <div
         id="description"
         class="w3-panel w3-theme-light submission"
       >
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-        qui officia deserunt mollit anim id est laborum.
-          $$s = ut + \\frac{1}{2}at^2.$$
+        The behaviour of a particle moving under constant acceleration is often
+        described by the SUVAT equations. SUVAT is an acronym representing the
+        five variables used in these equations
 
-        Hey there
+        S - Displacement
+        U - Initial Velocity
+        V - Final Velocity
+        A - Acceleration
+        T - Time
+
+        Below you can find the SUVAT equations
+
+        1.  \\(s = ut + \\frac{1}{2}at^2\\)
+
+        2.  \\(v = u + at\\)
+
+        3.  \\(v^2 = u^2 + 2as\\)
+
+        These equations are commonly used in projectile motion problems under a
+        constant graviational force. The steps to solving such problems are as
+        below:
+
+        1. Identify variables that are known.
+
+        2. Identify variables that need to be found
+
+        3. Split the variables into their components along the x and y axes (if appropriate)
+
+        4. Look at the equations and find which equations are most appropriate to solve the problem
+
+        5. Insert the variables into the appropriate equation and solve for the
+           required value.
+
+        Look at the first few lines of code below and change the values after the
+        equals-to sign to different values to see how it affects various parameters
+        of projectile motion. Try changing velocity, angle, initial position, etc.
+
+        The code itself is straightforward. It implements the first SUVAT equation
+        above to implement
+      </div>
+
+      <div class="w3-container w3-indigo">
+        <div id="codeEditor" class="w3-panel"></div>
+        <button class="w3-button w3-red w3-margin-bottom" v-on:click="runCode">Run it!</button>
       </div>
 
       <div
@@ -441,6 +474,7 @@ var Snippet = {
   `,
   data: function() {
     return {
+      title: "SUVAT Equations and Mechanics",
       code: testcode,
       pyodideLoaded: false,
       consoleOutput: '',
@@ -454,7 +488,19 @@ var Snippet = {
       if (!this.pyodideLoaded) return;
       var self = this;
       pyodide.runPythonAsync(this.code).then(function(val){
-          console.log(pyodide.globals);
+        console.log(document.getElementById('plotly').hasChildNodes());
+        if(document.getElementById('plotly').hasChildNodes()){
+          console.log("new trace");
+          newTrace = {
+            x: pyodide.globals[self.xArray],
+            y: pyodide.globals[self.yArray],
+            name: pyodide.globals.angle_degrees,
+            mode: self.plotType
+          }
+          Plotly.addTraces(document.getElementById('plotly'), newTrace);
+        }
+        else{
+          console.log("new plot");
           Plotly.react('plotly', {
             data: [{
               x: pyodide.globals[self.xArray],
@@ -524,7 +570,7 @@ var Snippet = {
             }),
             config: { responsive: true }
           })
-
+        }
       });
     }
   },
@@ -533,14 +579,16 @@ var Snippet = {
     languagePluginLoader.then(function (){
       inst.pyodideLoaded = true;
       pyodide.loadPackage(['numpy']);
+      inst.runCode();
     });
     self.myCodeMirror = CodeMirror(document.getElementById("codeEditor"), {
-      value: '#Put Python code here! :)',
+      value: testcode,
       lineNumbers: true,
       indentWithTabs: true
     });
     self.myCodeMirror.on("change", function(instance, changeObj){
       inst.code = instance.getValue();
+      console.log("code changed");
     });
     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
   }
@@ -707,7 +755,7 @@ const router = new VueRouter({
   routes: [
     {path: '/', component: Home},
     {path: '/play', component: Play},
-    {path: '/snippet', component: Snippet},
+    {path: '/snippet', component: Snippet1},
     {path: '/login', component: Login},
     {path: '/register', component: Register}
   ]
