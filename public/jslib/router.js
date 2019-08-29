@@ -414,8 +414,8 @@ var Snippet1 = {
         id="description"
         class="w3-panel w3-theme-light submission"
       >
-        The behaviour of a particle moving under constant acceleration is often
-        described by the SUVAT equations. SUVAT is an acronym representing the
+        The behaviour of a particle moving under constant acceleration is often \
+        described by the SUVAT equations. SUVAT is an acronym representing the \
         five variables used in these equations
 
         S - Displacement
@@ -432,8 +432,8 @@ var Snippet1 = {
 
         3.  \\(v^2 = u^2 + 2as\\)
 
-        These equations are commonly used in projectile motion problems under a
-        constant graviational force. The steps to solving such problems are as
+        These equations are commonly used in projectile motion problems under a \
+        constant graviational force. The steps to solving such problems are as \
         below:
 
         1. Identify variables that are known.
@@ -445,14 +445,19 @@ var Snippet1 = {
         4. Look at the equations and find which equations are most appropriate to solve the problem
 
         5. Insert the variables into the appropriate equation and solve for the
-           required value.
+           required value(s).
 
-        Look at the first few lines of code below and change the values after the
-        equals-to sign to different values to see how it affects various parameters
+        Addendum - Make sure that the variables have positive or negative sign \
+        appropriate to the direction of the vector. Eg. If a projectile is launched vertically, \
+        acceleration due to gravity and velocity must have opposite signs since gravity \
+        acts opposite to the motion of the projectile (initially).
+
+        Look at the first few lines of code below and change the values after the \
+        equals-to sign to different values to see how it affects various parameters \
         of projectile motion. Try changing velocity, angle, initial position, etc.
 
-        The code itself is straightforward. It implements the first SUVAT equation
-        above to implement
+        The code itself is straightforward. It implements the first SUVAT equation \
+        above to create a visualisation of projectile motion.
       </div>
 
       <div class="w3-container w3-indigo">
@@ -604,8 +609,8 @@ var Snippet2 = {
         id="description"
         class="w3-panel w3-theme-light submission"
       >
-        The behaviour of a particle moving under constant acceleration is often
-        described by the SUVAT equations. SUVAT is an acronym representing the
+        The behaviour of a particle moving under constant acceleration is often \
+        described by the SUVAT equations. SUVAT is an acronym representing the \
         five variables used in these equations
 
         S - Displacement
@@ -622,8 +627,8 @@ var Snippet2 = {
 
         3.  \\(v^2 = u^2 + 2as\\)
 
-        These equations are commonly used in projectile motion problems under a
-        constant graviational force. The steps to solving such problems are as
+        These equations are commonly used in projectile motion problems under a \
+        constant graviational force. The steps to solving such problems are as \
         below:
 
         1. Identify variables that are known.
@@ -635,23 +640,23 @@ var Snippet2 = {
         4. Look at the equations and find which equations are most appropriate to solve the problem
 
         5. Insert the variables into the appropriate equation and solve for the
-           required value.
+           required value(s).
 
-        Look at the first few lines of code below and change the values after the
-        equals-to sign to different values to see how it affects various parameters
-        of projectile motion. Try changing velocity, angle, initial position, etc.
+        Addendum - Make sure that the variables have positive or negative sign \
+        appropriate to the direction of the vector. Eg. If a projectile is launched vertically, \
+        acceleration due to gravity and velocity must have opposite signs since gravity \
+        acts opposite to the motion of the projectile (initially).
 
-        The code itself is straightforward. It implements the first SUVAT equation
-        above to implement
+        The representative image below describes an example of projectile motion and the variables involved. It also shows how the components of velocity may be split.
       </div>
 
       <div
-        class="w3-container w3-theme-l3"
-        style="height:386px;"
+        class="w3-card w3-theme-l3"
       >
-        <div
-          id="plotly"
-          style="height:350px;"
+        <img
+          src="images/projectilemotion.png"
+          alt="Projectile Motion"
+          style="w3-padding"
         ></div>
       </div>
     </div>
