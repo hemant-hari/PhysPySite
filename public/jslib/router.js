@@ -2,7 +2,7 @@ const testcode = `import numpy as np
 #### Change the values on the right side here! ####
 x0 = 0
 y0 = 0
-v = velocity
+v = 20
 angle_degrees = 25
 g = -9.8
 numpoints = 1001
