@@ -2,10 +2,10 @@ const testcode = `import numpy as np
 #### Change the values on the right side here! ####
 x0 = 0
 y0 = 0
-v = 20
+v = velocity
 angle_degrees = 25
 g = -9.8
-numpoints = 101
+numpoints = 1001
 
 ################ MATHS! ###################
 i=0
@@ -455,6 +455,8 @@ var Snippet1 = {
         Look at the first few lines of code below and change the values after the \
         equals-to sign to different values to see how it affects various parameters \
         of projectile motion. Try changing velocity, angle, initial position, etc.
+
+        $$ s = ut + \\frac{1}{2}at^2 .$$
 
         The code itself is straightforward. It implements the first SUVAT equation \
         above to create a visualisation of projectile motion.
