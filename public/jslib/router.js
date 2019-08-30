@@ -456,8 +456,6 @@ var Snippet1 = {
         equals-to sign to different values to see how it affects various parameters \
         of projectile motion. Try changing velocity, angle, initial position, etc.
 
-        $$ s = ut + \\frac{1}{2}at^2 .$$
-
         The code itself is straightforward. It implements the first SUVAT equation \
         above to create a visualisation of projectile motion.
       </div>
